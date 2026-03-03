@@ -27,9 +27,15 @@ except Exception as e:
     logging.error(f"Error loading model: {e}")
     raise e
 
-# ---------------- LOAD DATA FOR EXAMPLES ----------------
-fake_df = pd.read_csv("Fake.csv")
-true_df = pd.read_csv("True.csv")
+# ---------------- LOAD DATA FOR EXAMPLES (OPTIONAL) ----------------
+try:
+    fake_df = pd.read_csv("Fake.csv")
+    true_df = pd.read_csv("True.csv")
+    logging.info("Dataset loaded successfully.")
+except FileNotFoundError:
+    fake_df = None
+    true_df = None
+    logging.warning("Dataset not found. Example feature disabled.")
 
 # ---------------- HOME ROUTE ----------------
 @app.route("/")
@@ -53,9 +59,11 @@ def model_info():
         "classes": ["Fake", "Real"]
     })
 
-# ---------------- EXAMPLE ROUTE ----------------
 @app.route("/example/<type>")
 def example(type):
+    if fake_df is None or true_df is None:
+        return render_template("index.html", error="Example dataset not available in deployed version.")
+
     if type == "fake":
         news = fake_df.sample(1).iloc[0]["text"]
     else:
