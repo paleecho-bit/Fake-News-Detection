@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analysis Result</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top left, #0f2027, #203a43, #2c5364);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Main Glass Card */
+.dashboard {
+    width: 650px;
+    padding: 40px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 40px rgba(0,255,200,0.3);
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(20px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+/* Result Badge */
+.result-badge {
+    font-size: 26px;
+    font-weight: bold;
+    padding: 10px 25px;
+    border-radius: 30px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.real {
+    background: #00e676;
+    box-shadow: 0 0 20px #00e676;
+    color: black;
+}
+
+.fake {
+    background: #ff1744;
+    box-shadow: 0 0 20px #ff1744;
+}
+
+/* Circular Progress */
+.circle {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    margin: 20px auto;
+    background: conic-gradient(
+        #00e676 {{ real_prob }}%,
+        #ff1744 {{ real_prob }}%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.circle-inner {
+    width: 120px;
+    height: 120px;
+    background: #121212;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Probability Table */
+.prob-table {
+    margin-top: 15px;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* News Box */
+.news-box {
+    margin-top: 20px;
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 13px;
+    max-height: 140px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+/* Model Info */
+.model-info {
+    margin-top: 20px;
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+/* Back Button */
+.back-btn {
+    margin-top: 25px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(45deg, #2196f3, #21cbf3);
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    transform: scale(1.05);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    {% if prediction == "REAL NEWS" %}
+        <div class="result-badge real">REAL NEWS</div>
+    {% else %}
+        <div class="result-badge fake">FAKE NEWS</div>
+    {% endif %}
+
+    <div class="circle">
+        <div class="circle-inner">
+            {{ real_prob }}%
+        </div>
+    </div>
+
+    <div class="prob-table">
+        <strong>Probability Distribution</strong><br>
+        Real News: {{ real_prob }}% <br>
+        Fake News: {{ fake_prob }}%
+    </div>
+
+    <div class="news-box">
+        <strong>Analyzed Text:</strong><br><br>
+        {{ news }}
+    </div>
+
+    <div class="model-info">
+        Classification Model: TF-IDF Vectorizer + Machine Learning Classifier <br>
+        Output Generated via Flask Backend API <br>
+        Probability computed using predict_proba()
+    </div>
+
+    <form action="/">
+        <button class="back-btn">Analyze Another News</button>
+    </form>
+
+</div>
+
+</body>
+</html>
