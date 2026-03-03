@@ -47,7 +47,7 @@ Note: Dataset files are not uploaded due to large file size.
 ## Installation & Setup
 
 1. Clone the repository:
-   git clone https://github.com/your-username/Fake-News-Detection.git
+   git clone https://github.com/paleecho-bit/Fake-News-Detection.git
    cd Fake-News-Detection
 
 2. Install dependencies:
