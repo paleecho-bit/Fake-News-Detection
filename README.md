@@ -6,11 +6,15 @@ In the digital era, the rapid spread of misinformation through social media and 
 The system provides a simple API where users can input news content and receive instant predictions.
 
 ## Features
-- Text preprocessing (tokenization, stopword removal)
-- TF-IDF Vectorization
-- Machine Learning model for classification
-- REST API built using Flask
-- Real-time prediction for user input
+- TF-IDF based feature extraction
+- Supervised Machine Learning classifier
+- Probability-based prediction output
+- Input validation & error handling
+- RESTful API endpoint
+- Health monitoring endpoint
+- Model metadata endpoint
+- Structured logging system
+- Production-ready deployment (Gunicorn compatible)
 
 ## Tech Stack
 - Python
@@ -22,14 +26,18 @@ The system provides a simple API where users can input news content and receive 
 
 
 ## Project Structure
-Fake-News-Detection
+Fake-News-Detection/
 │
-├── app.py # Flask API
-├── train_model.py # Model training script
-├── fake_news_model.pkl # Trained ML model
-├── tfidf.pkl # TF-IDF vectorizer
-├── requirements.txt # Dependencies
+├── app.py                  # Main Flask application (ML inference service)
+├── train_model.py          # Model training pipeline
+├── fake_news_model.pkl     # Serialized trained model
+├── tfidf.pkl               # Serialized TF-IDF vectorizer
+├── templates/
+│   ├── index.html          # Frontend input interface
+│   └── result.html         # Prediction dashboard
+├── requirements.txt        # Dependencies
 └── README.md
+
 
 ##  Dataset
 Dataset used: Fake and True News Dataset  
