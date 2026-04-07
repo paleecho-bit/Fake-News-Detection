@@ -1,0 +1,9 @@
+flask
+flask-cors
+gunicorn
+pandas
+scikit-learn
+pillow
+PyPDF2
+python-docx
+requests

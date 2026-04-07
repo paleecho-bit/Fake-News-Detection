@@ -4,14 +4,14 @@ import pickle
 import pandas as pd
 import random
 import os
-import pytesseract
 from PIL import Image
 import PyPDF2
 import docx
-import pytesseract
 import json
+import requests
+import base64
 
-pytesseract.pytesseract.tesseract_cmd = r"C:\Users\Jennifer\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"
+
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -76,6 +76,29 @@ def get_fake_example():
     return jsonify({
         "text": sentence
     })
+def extract_text_from_image(file):
+    api_key = os.getenv("VISION_API_KEY")  # temporary for testing
+
+    image_content = base64.b64encode(file.read()).decode()
+
+    url = f"https://vision.googleapis.com/v1/images:annotate?key={api_key}"
+
+    body = {
+        "requests": [
+            {
+                "image": {"content": image_content},
+                "features": [{"type": "TEXT_DETECTION"}]
+            }
+        ]
+    }
+
+    response = requests.post(url, json=body)
+    result = response.json()
+
+    try:
+        return result["responses"][0]["fullTextAnnotation"]["text"]
+    except:
+        return ""
 @app.route('/upload', methods=['POST'])
 def upload_file():
 
@@ -110,11 +133,8 @@ def upload_file():
 
         # IMAGE (OCR)
         elif filename.endswith(('.png', '.jpg', '.jpeg')):
-            image = Image.open(file)
-            text = pytesseract.image_to_string(image)
-
-        else:
-            return jsonify({"error": "Unsupported file type"})
+         text = extract_text_from_image(file)
+          
 
         # 🚨 IMPORTANT CHECK
         if not text.strip():
