@@ -16,16 +16,23 @@ import base64
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-# load model and vectorizer
+# 1. Get the directory where app.py lives (the backend folder)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+# 2. Get the PROJECT ROOT (one level up from backend)
+PROJECT_ROOT = os.path.dirname(BASE_DIR)
+
+# 3. Load model and vectorizer from the current (backend) folder
 model = pickle.load(open(os.path.join(BASE_DIR, "model.pkl"), "rb"))
 vectorizer = pickle.load(open(os.path.join(BASE_DIR, "vectorizer.pkl"), "rb"))
-true_path = os.path.join(BASE_DIR, "dataset", "True.csv")
-fake_path = os.path.join(BASE_DIR, "dataset", "Fake.csv")
+
+# 4. Load datasets from the root's dataset folder
+# We use PROJECT_ROOT here because 'dataset' is NOT inside 'backend'
+true_path = os.path.join(PROJECT_ROOT, "dataset", "True.csv")
+fake_path = os.path.join(PROJECT_ROOT, "dataset", "Fake.csv")
+
 true_news = pd.read_csv(true_path)
 fake_news = pd.read_csv(fake_path)
-
 @app.route("/predict", methods=["POST"])
 def predict():
 
