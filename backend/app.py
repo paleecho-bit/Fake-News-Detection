@@ -33,6 +33,9 @@ fake_path = os.path.join(PROJECT_ROOT, "dataset", "Fake.csv")
 
 true_news = pd.read_csv(true_path)
 fake_news = pd.read_csv(fake_path)
+@app.route("/")
+def home():
+    return "Fake News Detection API is Running 🚀"
 @app.route("/predict", methods=["POST"])
 def predict():
 
