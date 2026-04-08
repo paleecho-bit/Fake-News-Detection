@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react"
-
+const API = process.env.NEXT_PUBLIC_API_URL
 export default function Settings() {
 
   const [darkMode, setDarkMode] = useState(true)
@@ -10,7 +10,7 @@ export default function Settings() {
 
   // ✅ LOAD SETTINGS FROM BACKEND
   useEffect(() => {
-    fetch("https://fake-news-detection-5m4w.onrender.com/settings")
+    fetch("(`${API}/settings`)")
       .then(res => res.json())
       .then(data => {
         setDarkMode(data.darkMode ?? true)
@@ -27,7 +27,7 @@ export default function Settings() {
     try {
       setLoading(true)
 
-      await fetch("https://fake-news-detection-5m4w.onrender.com/settings", {
+      await fetch("(`${API}/settings')", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-
+const API = process.env.NEXT_PUBLIC_API_URL
 export default function UploadFile({ setNewsText }: any) {
 
   const [file, setFile] = useState<File | null>(null)
@@ -22,7 +22,7 @@ export default function UploadFile({ setNewsText }: any) {
 
       console.log("📤 Sending file to backend...")
 
-      const res = await fetch("https://fake-news-detection-5m4w.onrender.com/upload", {
+      const res = await fetch("(`${API}/upload`)", {
         method: "POST",
         body: formData
       })

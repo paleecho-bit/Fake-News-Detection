@@ -10,7 +10,7 @@ import Statistics from "@/components/Statistics"
 import Settings from "@/components/Settings"
 import About from "@/components/About"
 
-
+const API = process.env.NEXT_PUBLIC_API_URL
 export default function FakeNewsDetector() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [activeTab, setActiveTab] = useState("dashboard")
@@ -113,7 +113,7 @@ const analyzeNews = async () => {
   try {
     setLoading(true)
 
-    const res = await fetch("https://fake-news-detection-5m4w.onrender.com/predict", {
+    const res = await fetch(`${API}/predict`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -160,7 +160,7 @@ const analyzeNews = async () => {
 }
 const tryRealNews = async () => {
   try {
-    const res = await fetch("https://fake-news-detection-5m4w.onrender.com/example/real")
+    const res = await fetch("(`${API}/example/real")
     const data = await res.json()
     setNewsText(data.text)
   } catch {
@@ -171,7 +171,7 @@ const tryRealNews = async () => {
 
 const tryFakeNews = async () => {
   try {
-    const res = await fetch("https://fake-news-detection-5m4w.onrender.com/example/fake")
+    const res = await fetch("(`${API}/example/fake`)")
     const data = await res.json()
     setNewsText(data.text)
   } catch {
