@@ -10,7 +10,7 @@ export default function Settings() {
 
   // ✅ LOAD SETTINGS FROM BACKEND
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/settings")
+    fetch("https://fake-news-detection-5m4w.onrender.com/settings")
       .then(res => res.json())
       .then(data => {
         setDarkMode(data.darkMode ?? true)
@@ -27,7 +27,7 @@ export default function Settings() {
     try {
       setLoading(true)
 
-      await fetch("http://127.0.0.1:5000/settings", {
+      await fetch("https://fake-news-detection-5m4w.onrender.com/settings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

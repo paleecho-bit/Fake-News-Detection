@@ -22,7 +22,7 @@ export default function UploadFile({ setNewsText }: any) {
 
       console.log("📤 Sending file to backend...")
 
-      const res = await fetch("http://127.0.0.1:5000/upload", {
+      const res = await fetch("https://fake-news-detection-5m4w.onrender.com/upload", {
         method: "POST",
         body: formData
       })

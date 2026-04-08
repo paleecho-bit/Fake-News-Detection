@@ -90,12 +90,14 @@ def get_fake_example():
         "text": sentence
     })
 def extract_text_from_image(file):
-    api_key = os.getenv("VISION_API_KEY")  # temporary for testing
-
+    api_key = os.getenv("VISION_API_KEY") 
+    
+    # 🚨 FIX 1: Reset file pointer to the beginning before reading
+    file.seek(0) 
+    
     image_content = base64.b64encode(file.read()).decode()
 
     url = f"https://vision.googleapis.com/v1/images:annotate?key={api_key}"
-
     body = {
         "requests": [
             {
@@ -105,13 +107,19 @@ def extract_text_from_image(file):
         ]
     }
 
-    response = requests.post(url, json=body)
-    result = response.json()
-
     try:
-        return result["responses"][0]["fullTextAnnotation"]["text"]
-    except:
-        return ""
+        response = requests.post(url, json=body)
+        result = response.json()
+        
+        # 🚨 FIX 2: Better error handling for the API response
+        if "responses" in result and result["responses"]:
+            annotations = result["responses"][0].get("fullTextAnnotation")
+            if annotations:
+                return annotations["text"]
+    except Exception as e:
+        print(f"Vision API Error: {e}")
+        
+    return ""
 @app.route('/upload', methods=['POST'])
 def upload_file():
 
@@ -146,7 +154,8 @@ def upload_file():
 
         # IMAGE (OCR)
         elif filename.endswith(('.png', '.jpg', '.jpeg')):
-         text = extract_text_from_image(file)
+            text = extract_text_from_image(file)
+            print(f"DEBUG: Extracted text length: {len(text)}")
           
 
         # 🚨 IMPORTANT CHECK

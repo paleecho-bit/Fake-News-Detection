@@ -113,7 +113,7 @@ const analyzeNews = async () => {
   try {
     setLoading(true)
 
-    const res = await fetch("http://127.0.0.1:5000/predict", {
+    const res = await fetch("https://fake-news-detection-5m4w.onrender.com/predict", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -160,7 +160,7 @@ const analyzeNews = async () => {
 }
 const tryRealNews = async () => {
   try {
-    const res = await fetch("http://127.0.0.1:5000/example/real")
+    const res = await fetch("https://fake-news-detection-5m4w.onrender.com/example/real")
     const data = await res.json()
     setNewsText(data.text)
   } catch {
@@ -171,7 +171,7 @@ const tryRealNews = async () => {
 
 const tryFakeNews = async () => {
   try {
-    const res = await fetch("http://127.0.0.1:5000/example/fake")
+    const res = await fetch("https://fake-news-detection-5m4w.onrender.com/example/fake")
     const data = await res.json()
     setNewsText(data.text)
   } catch {
