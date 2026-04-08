@@ -10,7 +10,7 @@ import Statistics from "@/components/Statistics"
 import Settings from "@/components/Settings"
 import About from "@/components/About"
 
-const API = process.env.NEXT_PUBLIC_API_URL
+const API = process.env.NEXT_PUBLIC_API_URL || "https://fake-news-detection-5m4w.onrender.com";
 export default function FakeNewsDetector() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [activeTab, setActiveTab] = useState("dashboard")
@@ -160,10 +160,12 @@ const analyzeNews = async () => {
 }
 const tryRealNews = async () => {
   try {
-    const res = await fetch("(`${API}/example/real")
+    // Corrected: No extra quotes or parentheses inside fetch
+    const res = await fetch(`${API}/example/real`) 
     const data = await res.json()
     setNewsText(data.text)
-  } catch {
+  } catch (error) {
+    console.error("Fetch error:", error)
     alert("Error loading real news")
   }
 }
@@ -171,10 +173,12 @@ const tryRealNews = async () => {
 
 const tryFakeNews = async () => {
   try {
-    const res = await fetch("(`${API}/example/fake`)")
+    // Corrected: No extra quotes or parentheses inside fetch
+    const res = await fetch(`${API}/example/fake`)
     const data = await res.json()
     setNewsText(data.text)
-  } catch {
+  } catch (error) {
+    console.error("Fetch error:", error)
     alert("Error loading fake news")
   }
 }
