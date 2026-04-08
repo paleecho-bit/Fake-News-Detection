@@ -17,11 +17,14 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # load model and vectorizer
-model = pickle.load(open("model.pkl","rb"))
-vectorizer = pickle.load(open("vectorizer.pkl","rb"))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-true_news = pd.read_csv("dataset/True.csv")
-fake_news = pd.read_csv("dataset/Fake.csv")
+model = pickle.load(open(os.path.join(BASE_DIR, "model.pkl"), "rb"))
+vectorizer = pickle.load(open(os.path.join(BASE_DIR, "vectorizer.pkl"), "rb"))
+true_path = os.path.join(BASE_DIR, "dataset", "True.csv")
+fake_path = os.path.join(BASE_DIR, "dataset", "Fake.csv")
+true_news = pd.read_csv(true_path)
+fake_news = pd.read_csv(fake_path)
 
 @app.route("/predict", methods=["POST"])
 def predict():
